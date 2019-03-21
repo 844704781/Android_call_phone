@@ -28,6 +28,8 @@ tools:context="com.watermelon.a01_dial_example.MainActivity">
                 android:layout_alignParentLeft="true"
                 tools:layout_editor_absoluteY="123dp"
                 tools:layout_editor_absoluteX="0dp" android:layout_y="122dp" android:layout_x="153dp"
-                style="@style/Widget.AppCompat.Button.Colored"/>
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:onClick="handleClick"
+        />
     </AbsoluteLayout>
 </android.support.constraint.ConstraintLayout>

@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editText;
 
@@ -28,40 +28,50 @@ public class MainActivity extends AppCompatActivity {
          * 获取editText对象
          */
         editText=findViewById(R.id.editText3);
-
-        Button button=findViewById(R.id.button01);
-        button.setOnClickListener(new handleClickListener());
-
-
     }
+
+    public void handleClick(View view){
+        handleCallPhone();
+    }
+
+    private void handleCallPhone() {
+        String number=editText.getText().toString().trim();
+        if("".equals(number)) {
+            /**
+             * 加入Toast，Toast:安卓内置的友好的提示工具
+             */
+            Toast.makeText(MainActivity.this, "您还未输入电话号码!!!", Toast.LENGTH_LONG).show();
+            return ;
+        }
+        /**
+         * 进行拨打电话
+         */
+
+        /**
+         * 判断是否有权限拨打电话
+         */
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            /**
+             * 如果没有权限拨打电话，则创建一个申请拨打电话的监听器，监听用户是否允许拨打电话
+             */
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] { Manifest.permission.CALL_PHONE }, 1);
+        } else {
+            call();
+        }
+    }
+
+
 
     private class handleClickListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-            String number=editText.getText().toString().trim();
-            if("".equals(number)) {
-                /**
-                 * 加入Toast，Toast:安卓内置的友好的提示工具
-                 */
-                Toast.makeText(MainActivity.this, "您还未输入电话号码!!!", Toast.LENGTH_LONG).show();
-                return ;
-            }
-            /**
-             * 进行拨打电话
-             */
-
-            /**
-             * 判断是否有权限拨打电话
-             */
-            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                /**
-                 * 如果没有权限拨打电话，则创建一个申请拨打电话的监听器，监听用户是否允许拨打电话
-                 */
-                ActivityCompat.requestPermissions(MainActivity.this, new String[] { Manifest.permission.CALL_PHONE }, 1);
-            } else {
-                call();
-            }
+            handleCallPhone();
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        handleCallPhone();
     }
 
     /**
